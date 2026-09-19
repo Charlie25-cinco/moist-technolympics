@@ -195,7 +195,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
+            flex-wrap: wrap;
+            row-gap: 0.6rem;
+            column-gap: 1rem;
         }
 
         body.module-fullscreen .game-module-toolbar { top: 16px; left: 20px; right: 20px; }
@@ -223,6 +225,8 @@
             border-radius: 0.75rem;
             background: rgba(42, 10, 20, 0.75);
             border: 1px solid rgba(232, 180, 76, 0.3);
+            min-width: 0;
+            max-width: 100%;
         }
 
         .module-profile-badge img { width: 34px; height: 34px; object-fit: cover; border-radius: 0.45rem; border: 1px solid rgba(255, 255, 255, 0.24); }
@@ -369,7 +373,7 @@
         .slot-lever:disabled { cursor: not-allowed; }
         .slot-lever i { font-size: 1.6rem; }
         .slot-lever-text { writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.3em; font-size: 0.95rem; }
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .slot-layout { flex-direction: column; }
             .slot-lever { width: 100%; flex-direction: row; padding: 1rem; }
             .slot-lever-text { writing-mode: horizontal-tb; letter-spacing: 0.2em; }
@@ -377,7 +381,7 @@
 
         /* Wheel hub spin button (circle inside wheel) */
         .wheel-hub-btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 20;
-            width: 7rem; height: 7rem; border-radius: 9999px; font-family: 'Space Grotesk', sans-serif;
+            width: clamp(4.5rem, 22vw, 7rem); height: clamp(4.5rem, 22vw, 7rem); border-radius: 9999px; font-family: 'Space Grotesk', sans-serif;
             background: radial-gradient(circle at 35% 30%, #f6d477, #e8b44c 55%, #a83443 100%); color: #2a0a14;
             border: 3px solid rgba(246, 212, 119, 0.8); box-shadow: 0 0 24px rgba(232,180,76,0.45), inset 0 2px 6px rgba(255,255,255,0.35);
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem;
@@ -386,8 +390,10 @@
         .wheel-hub-btn:active:not(:disabled) { transform: translate(-50%, -50%) scale(0.96); }
         .wheel-hub-btn:disabled { cursor: not-allowed; }
         .wheel-hub-btn:focus-visible, .slot-lever:focus-visible { outline: 3px solid #f6d477; outline-offset: 3px; }
-        .wheel-hub-btn i { font-size: 1.5rem; }
-        .wheel-hub-btn span { font-size: 0.85rem; }
+        .wheel-hub-btn i { font-size: clamp(1.1rem, 4.5vw, 1.5rem); }
+        .wheel-hub-btn span { font-size: clamp(0.65rem, 2.8vw, 0.85rem); }
+        /* Fluid wheel canvas: buffer stays 480px (draw math untouched), CSS scales to viewport. */
+        #wheelCanvas { width: min(480px, 92vw); height: auto; aspect-ratio: 1 / 1; }
 
         /* Audience player banner (per stage) */
         .stage-player-banner { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem;
@@ -579,12 +585,20 @@
             #stageCards { max-width: 1120px; }
             #slotBox, #btnSpinWheel, #spinMatrixBtn, #btnShuffleCards { max-width: 800px; }
             .slot-layout { max-width: 880px; }
+            #wheelCanvas { width: min(680px, 92vw); height: auto; }
+            #cardsContainer { max-width: 1080px; gap: 1.75rem; }
+            #cardsContainer > div { height: 20rem; }
+        }
+
+        @media (min-width: 1024px) {
             #slotBox { padding: 3rem; }
             #stageSlot .slot-reel { height: 20rem; }
             #stageSlot .slot-reel div { font-size: 7rem; }
-            #wheelCanvas { width: 680px; height: 680px; }
-            #cardsContainer { max-width: 1080px; gap: 1.75rem; }
-            #cardsContainer > div { height: 20rem; }
+        }
+
+        @media (max-width: 1023px) {
+            #stageSlot .slot-reel { height: 16rem; }
+            #stageSlot .slot-reel div { font-size: 5rem; }
         }
 
         @media (max-width: 767px) {
@@ -610,9 +624,10 @@
         .casino-game-tile .game-art img { object-position:center; }
         #gameModule { min-height:clamp(680px,82vh,900px) !important; padding:clamp(4.5rem,7vw,6rem) clamp(1rem,5vw,5rem) 3rem !important; border-radius:2rem !important; }
         #gameModule > div:not(.game-module-toolbar) { width:min(100%,1200px); }
-        .module-profile-badge { min-width:220px; padding:.65rem .85rem; }
-        .module-profile-badge img { width:42px; height:42px; }
-        .module-profile-badge strong { font-size:13px; }
+        .module-profile-badge { min-width:min(220px, 100%); padding:.65rem .85rem; }
+        .module-profile-badge img { width:42px; height:42px; flex:none; }
+        .module-profile-badge > div { min-width:0; }
+        .module-profile-badge strong { font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .game-module-toolbar > button { min-height:44px; padding:.7rem 1rem !important; border-radius:.85rem !important; }
         #toastContainer { right:1rem; bottom:1rem; width:min(420px,calc(100vw - 2rem)); transform:translateY(120px) scale(.96); }
         #toastContainer.toast-visible { transform:translateY(0) scale(1); opacity:1; }
@@ -659,16 +674,26 @@
         .prize-float i { color:#e8b44c; font-size:1.4rem; }
         .prize-float span { color:#fff; font-weight:900; font-size:1.5rem; }
         #toastContainer { bottom:6.5rem !important; }
-        @media (max-width:640px) { .prize-float { right:.9rem; bottom:.9rem; padding:.85rem 1.2rem; font-size:1.2rem; } .prize-float i { font-size:1.15rem; } .prize-float span { font-size:1.25rem; } #toastContainer { bottom:5.5rem !important; } }
+        @media (max-width:640px) { .prize-float { right:.75rem; bottom:.75rem; padding:.6rem .9rem; font-size:1rem; gap:.5rem; } .prize-float i { font-size:1rem; } .prize-float span { font-size:1.05rem; } #toastContainer { bottom:4.5rem !important; } }
         @media (max-width:900px) {
             .game-module-toolbar { position:sticky; top:4.5rem; z-index:15; background:rgba(10,5,18,.72); backdrop-filter:blur(10px); padding:8px; border-radius:14px; }
             #gameModule { min-height:720px !important; }
         }
+        @media (max-width: 800px) {
+            #matrixGrid { gap: 0.8rem !important; }
+            #matrixGrid > div { height: 5rem !important; }
+        }
         @media (max-width:640px) {
             .lobby-hero { min-height:340px !important; }
+            /* Burger menu: viewport-anchored so it can never slide off-screen. */
+            .casino-nav-menu { position:fixed; top:10rem; right:.75rem; left:auto; width:min(280px, calc(100vw - 1.5rem)); max-width:calc(100vw - 1.5rem); max-height:calc(100dvh - 11.5rem); overflow-y:auto; }
+            .casino-nav-menu .nav-btn { min-width:0; }
+            .casino-nav-menu .nav-label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
             .casino-game-tile { min-height:215px !important; }
             .game-art { min-height:105px !important; }
             #gameModule { padding-top:5rem !important; }
+            #stageSlot .slot-reel { height: 12rem !important; }
+            #stageSlot .slot-reel div { font-size: 4rem !important; }
             .module-profile-badge { min-width:0; max-width:190px; }
             .module-profile-badge span { font-size:7px; }
             .module-profile-badge strong { font-size:11px; }
@@ -677,6 +702,7 @@
             #matrixGrid { gap: 0.6rem !important; }
             #matrixGrid > div { height: 4rem !important; }
             #matrixBox { padding: 1rem !important; }
+            #cardsContainer > div { height: 12rem !important; }
             .stage-player-banner [data-player-name] { font-size: 1rem; }
         }
 
