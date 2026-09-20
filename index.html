@@ -371,7 +371,7 @@
         @keyframes slot-prize-spin { 50% { transform:scale(1.07); filter:brightness(1.35) drop-shadow(0 0 12px rgba(246,212,119,.9)); } }
 
         /* Lucky Draw orb + per-table environments */
-        .luck-orb { width:clamp(11rem,28vw,18rem); aspect-ratio:1; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 35% 30%,#f6d477,#a83443 58%,#2a0a14); border:3px solid rgba(246,212,119,.75); box-shadow:0 0 42px rgba(232,180,76,.45), inset 0 0 38px rgba(255,255,255,.2); font-size:clamp(4rem,10vw,7rem); color:#2a0a14; }
+        .luck-orb { width:clamp(12rem,30vw,20rem); aspect-ratio:1; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 35% 30%,#f6d477,#a83443 58%,#2a0a14); border:3px solid rgba(246,212,119,.75); box-shadow:0 0 42px rgba(232,180,76,.45), inset 0 0 38px rgba(255,255,255,.2); font-size:clamp(4.5rem,11vw,8rem); color:#2a0a14; }
         .luck-orb.is-drawing { animation:luck-draw .22s linear infinite; }
         @keyframes luck-draw { 50% { transform:rotate(12deg) scale(1.08); filter:brightness(1.35); } }
         /* Dressed luck table: pedestal rail, spotlight cone, plaque, result flash */
@@ -392,14 +392,22 @@
         #gameModule.luck-environment-scratch #stageLuck { background:repeating-linear-gradient(-30deg,rgba(246,212,119,.14) 0 3px,transparent 4px 15px),#5a1429; }
         #gameModule.luck-environment-chest #stageLuck { background:radial-gradient(ellipse at 50% 70%,rgba(232,180,76,.45),transparent 35%),linear-gradient(#16040a,#3b0b1b); }
         #gameModule.luck-environment-envelope #stageLuck { background:linear-gradient(135deg,rgba(168,52,67,.65),transparent 45%),linear-gradient(315deg,rgba(232,180,76,.2),transparent 42%),#2a0a14; }
-        #gameModule.luck-game-plinko .luck-orb { animation:plinko-drop 1.25s ease-in infinite; }
-        #gameModule.luck-game-dice .luck-orb { animation:dice-roll 1s cubic-bezier(.35,.01,.65,1) infinite; }
-        #gameModule.luck-game-box .luck-orb { animation:mystery-box 1.5s ease-in-out infinite; }
-        #gameModule.luck-game-coin .luck-orb { animation:coin-flip .75s linear infinite; }
+        #gameModule.luck-game-plinko .luck-orb { animation:plinko-drop 1.25s ease-in infinite; border-color:rgba(246,212,119,.85); }
+        #gameModule.luck-game-dice .luck-orb { animation:dice-roll 1s cubic-bezier(.35,.01,.65,1) infinite; border-color:rgba(240,201,105,.85); }
+        #gameModule.luck-game-box .luck-orb { animation:mystery-box 1.5s ease-in-out infinite; border-color:rgba(217,138,61,.9); }
+        #gameModule.luck-game-coin .luck-orb { animation:coin-flip .75s linear infinite; border-color:rgba(246,228,189,.9); }
+        #gameModule.luck-game-ball .luck-orb { animation:ball-bounce 1.1s ease-in-out infinite; border-color:rgba(227,142,160,.85); }
+        #gameModule.luck-game-scratch .luck-orb { animation:scratch-shimmer 1.4s ease-in-out infinite; border-color:rgba(246,228,189,.8); }
+        #gameModule.luck-game-chest .luck-orb { animation:chest-glow 1.6s ease-in-out infinite; border-color:rgba(198,145,46,.9); }
+        #gameModule.luck-game-envelope .luck-orb { animation:envelope-flip 1.2s ease-in-out infinite; border-color:rgba(232,160,160,.85); }
         @keyframes plinko-drop { 0%,100% { transform:translate(-42px,-22px); } 25% { transform:translate(36px,32px); } 50% { transform:translate(-18px,86px); } 75% { transform:translate(38px,145px); } }
         @keyframes dice-roll { 0% { transform:rotate(0) translateX(-36px); } 50% { transform:rotate(360deg) translateX(36px) scale(1.1); } 100% { transform:rotate(720deg) translateX(-36px); } }
         @keyframes mystery-box { 50% { transform:translateY(-18px) scale(1.08); box-shadow:0 0 64px rgba(246,212,119,.95); } }
         @keyframes coin-flip { 50% { transform:rotateY(540deg) scaleX(.15); } }
+        @keyframes ball-bounce { 0%,100% { transform:translateY(0) scale(1); } 50% { transform:translateY(-26px) scale(1.04); filter:brightness(1.2); } }
+        @keyframes scratch-shimmer { 50% { transform:scale(1.05) rotate(-4deg); filter:brightness(1.4) saturate(1.2); } }
+        @keyframes chest-glow { 50% { transform:scale(1.06); box-shadow:0 0 80px rgba(246,212,119,.9), inset 0 0 38px rgba(255,255,255,.35); } }
+        @keyframes envelope-flip { 50% { transform:rotateY(180deg) scale(1.05); filter:brightness(1.25); } }
 
         /* Ambient stage atmosphere: floating dust motes + felt texture overlay */
         .stage-atmosphere { position:absolute; inset:0; overflow:hidden; pointer-events:none; border-radius:inherit; }
@@ -904,7 +912,6 @@
 
                 <button onclick="selectGame('plinko')" data-game-key="plinko" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-wheel">
-                        <i class="fa-solid fa-circle-down"></i>
                         <img src="https://cp-images.casinoplus.live/images/cpms/26-09/3019_3019_260902152747.webp" alt="Plinko Drop game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Plinko Drop</h3>
@@ -914,7 +921,6 @@
 
                 <button onclick="selectGame('dice')" data-game-key="dice" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-cards">
-                        <i class="fa-solid fa-dice"></i>
                         <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm2.webp" alt="Dice Roll game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Dice Roll</h3>
@@ -924,7 +930,6 @@
 
                 <button onclick="selectGame('box')" data-game-key="box" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-slot">
-                        <i class="fa-solid fa-box-open"></i>
                         <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm1.webp" alt="Mystery Box game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Mystery Box</h3>
@@ -934,7 +939,6 @@
 
                 <button onclick="selectGame('coin')" data-game-key="coin" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-live">
-                        <i class="fa-solid fa-coins"></i>
                         <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm6.webp" alt="Coin Flip game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Coin Flip</h3>
@@ -944,7 +948,6 @@
 
                 <button onclick="selectGame('ball')" data-game-key="ball" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-matrix">
-                        <i class="fa-solid fa-bowling-ball"></i>
                         <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm4.webp" alt="Number Ball Draw game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Number Ball Draw</h3>
@@ -953,8 +956,7 @@
                 </button>
 
                 <button onclick="selectGame('scratch')" data-game-key="scratch" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
-                    <div class="game-art art-cards">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <div class="game-art art-baccarat">
                         <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm8.webp" alt="Scratch Card game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Scratch Card</h3>
@@ -963,8 +965,7 @@
                 </button>
 
                 <button onclick="selectGame('chest')" data-game-key="chest" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
-                    <div class="game-art art-slot">
-                        <i class="fa-solid fa-treasure-chest"></i>
+                    <div class="game-art art-blackjack">
                         <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm3.webp" alt="Treasure Chest game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Treasure Chest</h3>
@@ -973,8 +974,7 @@
                 </button>
 
                 <button onclick="selectGame('envelope')" data-game-key="envelope" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
-                    <div class="game-art art-live">
-                        <i class="fa-solid fa-envelope-open-text"></i>
+                    <div class="game-art art-roulette">
                         <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm7.webp" alt="Lucky Envelope game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Lucky Envelope</h3>
@@ -2343,7 +2343,12 @@
             if (chanceEntries.length === 0) return null;
 
             const noPrize = available.find(p => p.isLoss || p.tier === 'No Prize');
-            const roll = Math.random() * 100;
+            const chanceTotal = chanceEntries.reduce((sum, entry) => sum + entry.chance, 0);
+            // Roll within the actual configured total so stocked prizes can always
+            // be drawn. When a No Prize entry exists it absorbs any remainder
+            // below 100% (legacy behavior); otherwise odds stay proportional and
+            // a stocked inventory never reports itself as exhausted.
+            const roll = Math.random() * (noPrize ? 100 : Math.max(chanceTotal, 0.0001));
             let cursor = 0;
 
             for (const entry of chanceEntries) {
@@ -3711,6 +3716,19 @@
             setPrizePreviewState(prefix, seedSrc);
         }
 
+        // Rejects corrupt/unsupported uploads (e.g. HEIC phone photos) at submit
+        // time instead of saving a prize that renders broken everywhere later.
+        function canDecodeImage(dataUrl, timeoutMs = 8000) {
+            return new Promise(resolve => {
+                if (!dataUrl) { resolve(false); return; }
+                const img = new Image();
+                const timer = setTimeout(() => { img.src = ''; resolve(false); }, timeoutMs);
+                img.onload = () => { clearTimeout(timer); resolve((img.naturalWidth || 0) > 0); };
+                img.onerror = () => { clearTimeout(timer); resolve(false); };
+                img.src = dataUrl;
+            });
+        }
+
         async function submitNewPrize() {
             const nameInput = document.getElementById('addPrizeName');
             const name = toTitleCase(nameInput.value.trim());
@@ -3723,6 +3741,7 @@
 
             if (!name) { showCustomNotice('Please enter prize name.', 'error'); nameInput.focus(); return; }
             if (!image) { showCustomNotice('Upload a prize image or paste an image URL.', 'error'); return; }
+            if (document.getElementById('addPrizeImageFile')?.files?.[0] && !(await canDecodeImage(image))) { showCustomNotice('That photo could not be read. Please use a JPG or PNG photo.', 'error'); return; }
             if (!Number.isInteger(stock) || stock < 0) { showCustomNotice('Stock must be a whole number of 0 or more.', 'error'); return; }
             if (!Number.isFinite(chance) || chance < 0 || chance > 100) { showCustomNotice('Draw Chance must be between 0% and 100%.', 'error'); return; }
 
@@ -3790,6 +3809,7 @@
 
             if (!name) { showCustomNotice('Please enter prize name.', 'error'); return; }
             if (!image) { showCustomNotice('Upload a prize image or paste an image URL.', 'error'); return; }
+            if (document.getElementById('editPrizeImageFile')?.files?.[0] && !(await canDecodeImage(image))) { showCustomNotice('That photo could not be read. Please use a JPG or PNG photo.', 'error'); return; }
             if (!Number.isInteger(stock) || stock < 0) { showCustomNotice('Stock must be a whole number of 0 or more.', 'error'); return; }
             if (!Number.isFinite(chance) || chance < 0 || chance > 100) { showCustomNotice('Draw Chance must be between 0% and 100%.', 'error'); return; }
 
