@@ -374,6 +374,15 @@
         .luck-orb { width:clamp(11rem,28vw,18rem); aspect-ratio:1; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 35% 30%,#f6d477,#a83443 58%,#2a0a14); border:3px solid rgba(246,212,119,.75); box-shadow:0 0 42px rgba(232,180,76,.45), inset 0 0 38px rgba(255,255,255,.2); font-size:clamp(4rem,10vw,7rem); color:#2a0a14; }
         .luck-orb.is-drawing { animation:luck-draw .22s linear infinite; }
         @keyframes luck-draw { 50% { transform:rotate(12deg) scale(1.08); filter:brightness(1.35); } }
+        /* Dressed luck table: pedestal rail, spotlight cone, plaque, result flash */
+        .luck-pedestal { position:relative; display:grid; place-items:center; padding:2.25rem; }
+        .luck-pedestal::before { content:''; position:absolute; left:50%; top:-1rem; transform:translateX(-50%); width:min(26rem,80vw); height:9rem; background:radial-gradient(ellipse at 50% 0%, rgba(246,212,119,0.28), transparent 70%); pointer-events:none; }
+        .luck-pedestal::after { content:''; position:absolute; inset:0.4rem; border:2px solid rgba(232,180,76,0.4); border-radius:50%; box-shadow:0 0 0 6px rgba(42,10,20,0.6), 0 0 0 8px rgba(232,180,76,0.22), 0 0 44px rgba(232,180,76,0.25); pointer-events:none; }
+        .luck-orb.result-flash { animation:luck-result-flash 1.1s ease-out 1; }
+        @keyframes luck-result-flash { 0% { box-shadow:0 0 0 rgba(232,180,76,0); } 30% { box-shadow:0 0 90px rgba(246,212,119,0.95), inset 0 0 38px rgba(255,255,255,.35); } 100% { box-shadow:0 0 42px rgba(232,180,76,.45), inset 0 0 38px rgba(255,255,255,.2); } }
+        .luck-eyebrow { display:inline-block; font:700 10px/1 'JetBrains Mono', monospace; letter-spacing:0.3em; color:#e8b44c; text-transform:uppercase; margin-bottom:0.5rem; }
+        .luck-plaque { display:inline-block; margin-top:0.75rem; background:rgba(42,10,20,0.85); border:1px solid rgba(232,180,76,0.45); border-radius:0.9rem; padding:0.6rem 1.2rem; font-size:0.8rem; color:#f6e4bd; box-shadow:inset 0 1px 0 rgba(246,228,189,0.1); }
+        #btnLuckDraw { border:2px solid rgba(246,212,119,0.65); box-shadow:0 0 22px rgba(232,180,76,0.4); letter-spacing:0.18em; }
         #stageLuck { min-height:520px; }
         #gameModule.luck-environment-plinko #stageLuck { background:radial-gradient(circle at 50% 20%,rgba(232,180,76,.25),transparent 25%), repeating-radial-gradient(circle at 50% 25%,rgba(246,212,119,.3) 0 3px,transparent 4px 38px),#3b0b1b; }
         #gameModule.luck-environment-dice #stageLuck { background:radial-gradient(circle at 50% 50%,rgba(168,52,67,.45),transparent 50%),linear-gradient(135deg,#2a0a14,#5a1429); }
@@ -895,7 +904,8 @@
 
                 <button onclick="selectGame('plinko')" data-game-key="plinko" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-wheel">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/26-09/3019_3019_260902152747.webp" alt="Plinko Drop game artwork">
+                        <i class="fa-solid fa-circle-down"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/26-09/3019_3019_260902152747.webp" alt="Plinko Drop game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Plinko Drop</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Drop into a prize lane</p>
@@ -904,7 +914,8 @@
 
                 <button onclick="selectGame('dice')" data-game-key="dice" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-cards">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/3007/big21blackjack_v2.webp" alt="Dice Roll game artwork">
+                        <i class="fa-solid fa-dice"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm2.webp" alt="Dice Roll game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Dice Roll</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Roll for your reward</p>
@@ -913,7 +924,8 @@
 
                 <button onclick="selectGame('box')" data-game-key="box" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-slot">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/bigosm15.webp" alt="Mystery Box game artwork">
+                        <i class="fa-solid fa-box-open"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm1.webp" alt="Mystery Box game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Mystery Box</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Unlock a surprise prize</p>
@@ -922,7 +934,8 @@
 
                 <button onclick="selectGame('coin')" data-game-key="coin" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-live">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm6.webp" alt="Coin Flip game artwork">
+                        <i class="fa-solid fa-coins"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm6.webp" alt="Coin Flip game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Coin Flip</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Call your lucky side</p>
@@ -931,7 +944,8 @@
 
                 <button onclick="selectGame('ball')" data-game-key="ball" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-matrix">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/3001/31-08/Big/223.webp" alt="Number Ball Draw game artwork">
+                        <i class="fa-solid fa-bowling-ball"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm4.webp" alt="Number Ball Draw game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Number Ball Draw</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Draw a number ball</p>
@@ -940,7 +954,8 @@
 
                 <button onclick="selectGame('scratch')" data-game-key="scratch" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-cards">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/3007/big21blackjack_v2.webp" alt="Scratch Card game artwork">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm8.webp" alt="Scratch Card game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Scratch Card</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Scratch to reveal prize</p>
@@ -949,7 +964,8 @@
 
                 <button onclick="selectGame('chest')" data-game-key="chest" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-slot">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/bigosm15.webp" alt="Treasure Chest game artwork">
+                        <i class="fa-solid fa-treasure-chest"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm3.webp" alt="Treasure Chest game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Treasure Chest</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Open the treasure chest</p>
@@ -958,7 +974,8 @@
 
                 <button onclick="selectGame('envelope')" data-game-key="envelope" class="casino-game-tile p-5 rounded-2xl text-left border border-slate-700 relative overflow-hidden group">
                     <div class="game-art art-live">
-                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/4500/mobile/big3.webp" alt="Lucky Envelope game artwork">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        <img src="https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm7.webp" alt="Lucky Envelope game artwork" onerror="this.style.display='none'">
                     </div>
                     <h3 class="font-bold text-sm font-orbitron text-white">Lucky Envelope</h3>
                     <p class="text-[11px] text-slate-400 mt-0.5">Open a lucky envelope</p>
@@ -1151,11 +1168,14 @@
                         <span class="mote delay-1"></span><span class="mote delay-3"></span><span class="mote delay-5"></span><span class="mote delay-7"></span>
                     </div>
                     <div>
+                        <span class="luck-eyebrow">Luck Table</span>
                         <h2 id="stageLuckTitle" class="text-3xl font-black font-orbitron text-yellow-300 uppercase tracking-widest">LUCKY DRAW</h2>
                         <div class="stage-player-banner"><span class="stage-player-tag">NOW PLAYING</span><span data-player-name>No Player Selected</span></div>
-                        <p id="luckInstruction" class="text-xs text-slate-400 mt-3">Let luck choose your prize.</p>
+                        <p id="luckInstruction" class="luck-plaque">Let luck choose your prize.</p>
                     </div>
-                    <div id="luckOrb" class="luck-orb"><i id="luckIcon" class="fa-solid fa-star"></i></div>
+                    <div class="luck-pedestal">
+                        <div id="luckOrb" class="luck-orb"><i id="luckIcon" class="fa-solid fa-star"></i></div>
+                    </div>
                     <button id="btnLuckDraw" onclick="playLuckGame()" class="w-full max-w-lg py-4 rounded-xl btn-cyber-yellow font-black text-base font-orbitron tracking-widest uppercase transition transform active:scale-95 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-sparkles"></i> START LUCKY DRAW
                     </button>
@@ -2605,7 +2625,7 @@
                 document.getElementById('reelBox3').className = "slot-reel h-56 rounded-xl flex items-center justify-center overflow-hidden relative shadow-inner";
                 document.getElementById('matrixBox').className = "bg-slate-950 p-8 rounded-2xl border-2 border-emerald-500/50 w-full max-w-5xl shadow-2xl relative transition-all duration-300";
                 const luckOrb = document.getElementById('luckOrb');
-                if (luckOrb) { luckOrb.classList.remove('is-drawing'); luckOrb.innerHTML = '<i id="luckIcon" class="fa-solid fa-star"></i>'; }
+                if (luckOrb) { luckOrb.classList.remove('is-drawing', 'result-flash'); luckOrb.innerHTML = '<i id="luckIcon" class="fa-solid fa-star"></i>'; }
                 updateAllGameVisuals();
 
                 if (!document.getElementById('viewRoster').classList.contains('hidden')) {
@@ -2637,14 +2657,14 @@
             wheel: { engine: 'wheel', name: 'Lucky Wheel', category: 'Wheel table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/4500/mobile/big3.webp', theme: 'wheel', title: 'TECH FORTUNE WHEEL', instruction: 'Spin the wheel and let the needle select your prize tier.' },
             cards: { engine: 'cards', name: 'Cyber Cards', category: 'Card table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/3007/big21blackjack_v2.webp', theme: 'cards', title: 'MYSTERY CYBER CARDS', instruction: 'Shuffle and choose a card for a biometric prize reveal.' },
             matrix: { engine: 'matrix', name: 'Quantum Scatter', category: 'Scatter table', image: 'https://cp-images.casinoplus.live/images/cpms/3001/31-08/Big/223.webp', theme: 'matrix', title: 'QUANTUM SCATTER HUNT', instruction: 'The prize symbol with the most tiles wins the draw.' },
-            plinko: { engine: 'luck', name: 'Plinko Drop', category: 'Luck table', image: '', theme: 'wheel', title: 'PLINKO DROP', instruction: 'Release the ball and let it find your prize lane.', icon: 'fa-circle-down' },
-            dice: { engine: 'luck', name: 'Dice Roll', category: 'Luck table', image: '', theme: 'cards', title: 'DICE ROLL', instruction: 'Roll the dice for a surprise reward.', icon: 'fa-dice' },
-            box: { engine: 'luck', name: 'Mystery Box', category: 'Luck table', image: '', theme: 'slot', title: 'MYSTERY BOX', instruction: 'Unlock the box and reveal your prize.', icon: 'fa-box-open' },
-            coin: { engine: 'luck', name: 'Coin Flip', category: 'Luck table', image: '', theme: 'wheel', title: 'COIN FLIP', instruction: 'Flip the coin and let fortune decide.', icon: 'fa-coins' },
-            ball: { engine: 'luck', name: 'Number Ball Draw', category: 'Luck table', image: '', theme: 'matrix', title: 'NUMBER BALL DRAW', instruction: 'Draw a number ball for your prize.', icon: 'fa-bowling-ball' },
-            scratch: { engine: 'luck', name: 'Scratch Card', category: 'Luck table', image: '', theme: 'baccarat', title: 'SCRATCH CARD', instruction: 'Scratch to reveal your prize.', icon: 'fa-wand-magic-sparkles' },
-            chest: { engine: 'luck', name: 'Treasure Chest', category: 'Luck table', image: '', theme: 'blackjack', title: 'TREASURE CHEST', instruction: 'Open the chest to reveal your reward.', icon: 'fa-treasure-chest' },
-            envelope: { engine: 'luck', name: 'Lucky Envelope', category: 'Luck table', image: '', theme: 'roulette', title: 'LUCKY ENVELOPE', instruction: 'Open an envelope and reveal your fortune.', icon: 'fa-envelope-open-text' },
+            plinko: { engine: 'luck', name: 'Plinko Drop', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/26-09/3019_3019_260902152747.webp', theme: 'wheel', title: 'PLINKO DROP', instruction: 'Release the ball and let it find your prize lane.', icon: 'fa-circle-down' },
+            dice: { engine: 'luck', name: 'Dice Roll', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm2.webp', theme: 'cards', title: 'DICE ROLL', instruction: 'Roll the dice for a surprise reward.', icon: 'fa-dice' },
+            box: { engine: 'luck', name: 'Mystery Box', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm1.webp', theme: 'slot', title: 'MYSTERY BOX', instruction: 'Unlock the box and reveal your prize.', icon: 'fa-box-open' },
+            coin: { engine: 'luck', name: 'Coin Flip', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm6.webp', theme: 'wheel', title: 'COIN FLIP', instruction: 'Flip the coin and let fortune decide.', icon: 'fa-coins' },
+            ball: { engine: 'luck', name: 'Number Ball Draw', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm4.webp', theme: 'matrix', title: 'NUMBER BALL DRAW', instruction: 'Draw a number ball for your prize.', icon: 'fa-bowling-ball' },
+            scratch: { engine: 'luck', name: 'Scratch Card', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm8.webp', theme: 'baccarat', title: 'SCRATCH CARD', instruction: 'Scratch to reveal your prize.', icon: 'fa-wand-magic-sparkles' },
+            chest: { engine: 'luck', name: 'Treasure Chest', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm3.webp', theme: 'blackjack', title: 'TREASURE CHEST', instruction: 'Open the chest to reveal your reward.', icon: 'fa-treasure-chest' },
+            envelope: { engine: 'luck', name: 'Lucky Envelope', category: 'Luck table', image: 'https://cp-images.casinoplus.live/images/cpms/ALL_GAME/170/osm7.webp', theme: 'roulette', title: 'LUCKY ENVELOPE', instruction: 'Open an envelope and reveal your fortune.', icon: 'fa-envelope-open-text' },
         };
 
         function selectGame(gameKey) {
@@ -2690,7 +2710,7 @@
             if (engine === 'matrix') document.getElementById('matrixBanner').querySelector('p').textContent = profile.instruction;
             if (engine === 'luck') {
                 const orb = document.getElementById('luckOrb');
-                if (orb && !document.getElementById('luckIcon')) orb.innerHTML = '<i id="luckIcon" class="fa-solid fa-star"></i>';
+                if (orb) { orb.classList.remove('result-flash'); if (!document.getElementById('luckIcon')) orb.innerHTML = '<i id="luckIcon" class="fa-solid fa-star"></i>'; }
                 document.getElementById('luckInstruction').textContent = profile.instruction;
                 const luckIcon = document.getElementById('luckIcon');
                 if (luckIcon) luckIcon.className = `fa-solid ${profile.icon || 'fa-star'}`;
@@ -3491,7 +3511,7 @@
             if (orb) orb.classList.add('is-drawing');
             const isLoss = prize.isLoss || prize.tier === 'No Prize';
             setTimeout(() => {
-                if (orb) { orb.classList.remove('is-drawing'); orb.innerHTML = prizeVisualMarkup(prize, 'prize-image-large', 'text-6xl'); }
+                if (orb) { orb.classList.remove('is-drawing'); orb.innerHTML = prizeVisualMarkup(prize, 'prize-image-large', 'text-6xl'); orb.classList.add('result-flash'); }
                 claimPrize(prize, (gameProfiles[currentActiveGame] || {}).name || 'Lucky Draw', isLoss ? 700 : 1200, { type: 'luck', game: currentActiveGame }, gamePlayer);
             }, 1600);
         }
